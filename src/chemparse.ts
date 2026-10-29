@@ -242,7 +242,9 @@ export default class ChemParse {
     if ( chargeMatch ) mainFormula = mainFormula.slice( 0, chargeMatch.index );
 
     // Normalize and split into parts by Unicode middle dot (·) or "_"
-    const parts = mainFormula.replace( /_|\u00B7/g, '·' ).split( '·' ).filter( p => p.length > 0 );
+    const parts = mainFormula.replace( /_|\u00B7/g, '·' ).split( '·' );
+    if ( parts.some( p => p.length === 0 ) )
+      throw new Error( `Formula contains an empty hydrate segment.` );
     const counts: ElementCounts = {};
 
     for ( let part of parts ) {
