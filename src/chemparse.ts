@@ -263,6 +263,9 @@ export default class ChemParse {
         counts[ el as ElementSymbol ] = ( counts[ el as ElementSymbol ] || 0 ) + cnt * leadingCoef;
     }
 
+    if ( Object.keys( counts ).length === 0 )
+      throw new Error( `Formula must contain at least one element.` );
+
     // Sort elements by order in the periodic table
     const elementCounts: ElementCounts = {};
     ELEMENT_SYMBOLS.forEach( el => { if ( el in counts ) elementCounts[ el ] = counts[ el ] } );
